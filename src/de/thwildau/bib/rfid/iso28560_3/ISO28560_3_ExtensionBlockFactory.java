@@ -37,7 +37,7 @@ public class ISO28560_3_ExtensionBlockFactory {
   }
   
   public ISO28560_3_ExtensionBlock getInstance(int ebType) {
-    System.out.println("ebType" + ebType);
+    
     switch (ebType) {
       case 1:
         return new ISO28560_3_LibraryExtensionBlock();

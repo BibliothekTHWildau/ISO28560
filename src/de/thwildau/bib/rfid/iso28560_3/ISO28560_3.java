@@ -10,7 +10,6 @@ import java.util.Arrays;
  */
 public class ISO28560_3 {
 
-  //global byte
   //Extension blocks
   //internal pointer to the next extension block
   private int nextBlockStart = 34;
@@ -149,6 +148,11 @@ public class ISO28560_3 {
     for (ISO28560_3_ExtensionBlock entry : extensionBlocks) {
       
       byte[] eBlock = entry.getExtensionBlock();
+      
+      if (eBlock.length + block.length > tagSize){
+        System.out.println("omitting extensionBlock due to tagSize: " + entry.getDataBlockID());
+        continue;
+      }
       
       // extend block to new size
       block = Arrays.copyOf(block, block.length + eBlock.length);
