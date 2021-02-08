@@ -9,66 +9,66 @@ package de.thwildau.bib.rfid.iso28560_3;
  *
  * @author jan
  */
-public abstract class ISO28560_3ExtensionBlock {
+public abstract class ISO28560_3_ExtensionBlock {
 
   private String name;
 
   private int length;
   
-  private int Data_block_ID;
+  protected int DataBlockID;
   
-  int XOR_checkusm;
+  //int XOR_checkusm;
   
-  private boolean validBlock;
+  boolean validBlock;
 
   byte[] payload;
   
-  public int getLength() {
+  /*public int getLength() {
     return length;
-  }
+  }*/
 
   public void setLength(int length) {
     this.length = length;
   }
 
-  public int getData_block_ID() {
-    return Data_block_ID;
+  public int getDataBlockID() {
+    return DataBlockID;
   }
 
-  public void setData_block_ID(int data_block_ID) {
-    Data_block_ID = data_block_ID;
+  public void setDataBlockID(int DataBlockID) {
+    this.DataBlockID = DataBlockID;
   }
 
   /*public int getXOR_checkusm() {
     return XOR_checkusm;
   }*/
 
-  public void setXOR_checkusm(int XOR_checkusm) {
+  /*public void setXOR_checkusm(int XOR_checkusm) {
     this.XOR_checkusm = XOR_checkusm;
-  }  
+  } */ 
 
   public String getName() {
     return name;
   }
 
-  public boolean isValidBlock() {
+  /*public boolean isValidBlock() {
     return validBlock;
-  }
+  }*/
 
   /*public byte[] getPayload() {
     return payload;
   }*/
   
 
-  public ISO28560_3ExtensionBlock(byte[] data) {
+  public ISO28560_3_ExtensionBlock(byte[] data) {
     
     //System.out.println("data length: " + data.length + " : " + HexConvert.byteArrayToHexString(data));
 
     length = data[0];
 
-    Data_block_ID = (int) data[1] + (int) data[2];
+    DataBlockID = (int) data[1] + (int) data[2];
 
-    name = getExtensionBlockType(Data_block_ID);
+    name = getExtensionBlockType(DataBlockID);
     
     int generatedChecksum = data[0];
     //blockstart +1 bcause start is already in crc
@@ -90,6 +90,16 @@ public abstract class ISO28560_3ExtensionBlock {
       System.out.println("invalid checksum on extension block");
     }
 
+  }
+  
+  /**
+   * constructor that initializes a new empty extension block
+   * @param type 
+   */
+  public ISO28560_3_ExtensionBlock(int type) {
+    length = 0;
+    DataBlockID = type;
+    name = getExtensionBlockType(DataBlockID);
   }
 
   private String getExtensionBlockType(int type) {
@@ -115,5 +125,6 @@ public abstract class ISO28560_3ExtensionBlock {
   
   abstract void parseExtensionBlockPayload(byte[] payload);
 
+  abstract byte[] getExtensionBlock();
   
 }
